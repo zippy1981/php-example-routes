@@ -14,7 +14,9 @@
             "email": "zippy1981@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php-di/php-di": "^6.0"
+    },
     "require-dev": {
         "overtrue/phplint": "^1.1",
         "phpmd/phpmd" : "@stable",

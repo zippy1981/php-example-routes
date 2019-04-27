@@ -1,11 +1,29 @@
 <?php
+
 namespace Router;
+
+use \DI\COntainer;
 
 class Router
 {
-    public function getRoute(): string
+    private $controllerRoot = '\Router\Controllers';
+    private $container;
+
+    public function __construct()
     {
-        return $_SERVER['REQUEST_URI'];
+        $this->container = new Container();
+    }
+
+    public function getControllerClass(): object
+    {
+        $uriSegments = explode('/', $this->getUriPath());
+        $className = count($uriSegments) >= 4 ? "{$uriSegments[1]}{$uriSegments[3]}" : $uriSegments[1];
+        return $this->container->get("{$this->controllerRoot}\\{$className}");
+    }
+
+    public function getUriPath(): string
+    {
+        return $_SERVER['REDIRECT_URL'];
     }
 
     public function getVerb(): string

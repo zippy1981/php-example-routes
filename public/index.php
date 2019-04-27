@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use \Router\Router;
 
@@ -19,6 +20,7 @@ if (php_sapi_name() === 'cli-server') {
 
 // Composer autoloading
 include __DIR__ . '/../vendor/autoload.php';
+$container = new DI\Container();
 
 if (! class_exists(Router::class)) {
     throw new RuntimeException(
@@ -28,10 +30,14 @@ if (! class_exists(Router::class)) {
     );
 }
 
-$router = new Router();
+#$router = $container->get(Router::class);
+$router = $container->get('router\router');
 
 header('Content-type: text/plain');
+#print_r($_SERVER);
+
 echo $router->getVerb();
 echo ' ';
-echo $router->getRoute();
+echo $router->getUriPath();
 echo "\n";
+$router->getControllerClass();
