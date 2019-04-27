@@ -28,5 +28,10 @@ if (! class_exists(Router::class)) {
     );
 }
 
+$router = new Router();
+
 header('Content-type: text/plain');
-echo('Hello World!\n');
+echo $router->getVerb();
+echo ' ';
+echo $router->getRoute();
+echo "\n";

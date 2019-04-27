@@ -16,8 +16,10 @@
     ],
     "require": {},
     "require-dev": {
+        "overtrue/phplint": "^1.1",
+        "phpmd/phpmd" : "@stable",
         "phpunit/phpunit": "^8.1",
-        "overtrue/phplint": "^1.1"
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "psr-4": {
@@ -25,8 +27,9 @@
         }
     },
     "scripts": {
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
+        "cs-check": "phpcs src/ public/",
+        "cs-fix": "phpcbf src/ public/",
+        "phpmd": "phpmd src/,public/ text codesize,cleancode,design,naming",
         "lint": "phplint",
         "serve": "php -S 0.0.0.0:8080 -t public public/index.php",
         "test": "phpunit"
