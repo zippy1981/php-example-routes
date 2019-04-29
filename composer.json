@@ -1,7 +1,7 @@
 {
     "name": "zippy1981/php-routing-example",
     "description": "Example of custom PHP routing",
-    "type": "project",
+    "type": "library",
     "config": {
         "platform": {
             "php": "7.3.4"
