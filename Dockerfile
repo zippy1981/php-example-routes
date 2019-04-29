@@ -2,6 +2,7 @@ FROM php:7.3.4-apache
 
 LABEL Name "Zippysoft PHP Routing Example"
 LABEL Version="0.1"
+LABEL Author="Justin Dearing <zippy1981@gmail.com>"
 
 VOLUME [ "/var/www/html" ]
 
