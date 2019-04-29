@@ -3,8 +3,6 @@
 namespace Router;
 
 use \DI\Container;
-use DI\DependencyException;
-use DI\NotFoundException;
 
 class Router
 {
@@ -34,6 +32,14 @@ class Router
      * @var bool True if the route is to an index method.
      */
     private $indexRoute;
+    /**
+     * @var int the level of the route. Either 1 or 2.
+     */
+    private $routeLevels;
+    /**
+     * @var int number of segments in the route path.
+     */
+    private $segmentCount;
 
     private static function getContainer(): Container
     {
@@ -68,18 +74,54 @@ class Router
     public function __construct()
     {
         $uriSegments = explode('/', trim($this->getUriPath(), "/"));
-        $segmentCount = count($uriSegments);
-        $this->className = $segmentCount >= 3 ? "{$uriSegments[0]}{$uriSegments[2]}" : $uriSegments[0];
-        $this->routeName = $segmentCount >= 3
+        $this->segmentCount = count($uriSegments);
+        $this->routeLevels = $this->segmentCount > 2 ? 2 : 1;
+        $this->className = $this->segmentCount >= 3 ? "{$uriSegments[0]}{$uriSegments[2]}" : $uriSegments[0];
+        $this->routeName = $this->segmentCount >= 3
             ? strtolower("{$uriSegments[0]}.{$uriSegments[2]}")
             : strtolower($uriSegments[0]);
-        if ($segmentCount >= 2) {
+        if ($this->segmentCount >= 2) {
             $this->param1 = $uriSegments[1];
         }
-        if ($segmentCount >= 4) {
+        if ($this->segmentCount >= 4) {
             $this->param2 = $uriSegments[3];
         }
-        $this->indexRoute = in_array($segmentCount, [1,3]);
+        $this->indexRoute = in_array($this->segmentCount, [1,3]);
+    }
+
+    private function assertSegmentLength(): void
+    {
+        $verb = $this->getVerb();
+        $assertFails = $this->segmentCount > 4 || $this->segmentCount === 0;
+        switch ($verb) {
+            case 'POST':
+                if ($this->routeLevels === 2) {
+                    $assertFails = $this->segmentCount != 3;
+                }
+                if ($this->routeLevels === 1) {
+                    $assertFails = $this->segmentCount != 1;
+                }
+                break;
+            case 'PUT':
+                if ($this->routeLevels === 2) {
+                    $assertFails = $this->segmentCount != 4;
+                }
+                if ($this->routeLevels === 1) {
+                    $assertFails = $this->segmentCount != 2;
+                }
+                break;
+            case 'DELETE':
+                if ($this->routeLevels === 2) {
+                    $assertFails = $this->segmentCount != 4;
+                }
+                if ($this->routeLevels === 1) {
+                    $assertFails = $this->segmentCount != 2;
+                }
+                break;
+        }
+        if ($assertFails) {
+            throw new InvalidRouteException($this->getVerb(), $this->getUriPath());
+        }
     }
 
     /**
@@ -97,7 +139,7 @@ class Router
     /**
      * @return string the path part of the URI.
      */
-    public function getUriPath(): string
+    private function getUriPath(): string
     {
         return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     }
@@ -105,7 +147,7 @@ class Router
     /**
      * @return string the HTTP verb.
      */
-    public function getVerb(): string
+    private function getVerb(): string
     {
         return $_SERVER['REQUEST_METHOD'];
     }
@@ -117,6 +159,7 @@ class Router
 
     public function invokeControllerMethod() : void
     {
+        $this->assertSegmentLength();
         $verb = $this->getVerb();
         switch ($verb) {
             case 'GET':

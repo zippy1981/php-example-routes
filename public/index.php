@@ -39,11 +39,4 @@ Router::resource('whatever.whenever');
 
 $router = $container->get(Router::class);
 
-header('Content-type: text/plain');
-#print_r($_SERVER);
-
-echo $router->getVerb();
-echo ' ';
-echo $router->getUriPath();
-echo "\n";
-$router->getController();
+$router->invokeControllerMethod();

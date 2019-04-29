@@ -8,11 +8,12 @@ class WhateverWhenever implements ControllerInterface
 {
     /**
      * Get action for the root of the controller.
-     * @param $id int|string The parameter for the first level of the route.
+     * @param $wid int|string The parameter for the first level of the route.
      */
-    public function index($id): void
+    public function index($wid): void
     {
-        // TODO: Implement index() method.
+        header('Content-type: text/plain');
+        echo "All of the whenevers for whatever #$wid\n";
     }
 
     /**
@@ -22,27 +23,32 @@ class WhateverWhenever implements ControllerInterface
      */
     public function get($id1, $id2): void
     {
-        // TODO: Implement get() method.
+        header('Content-type: text/plain');
+        echo "Whatever #$id1. Whenever $id2\n";
     }
 
     /**
      * POST action for the controller with parameters.
      * @param  $id1 int|string The parameter for the first level of the route
      * @param $id2 int|string The parameter for the second level of the route
+     * @throws \Exception
      */
     public function create($id1): void
     {
-        // TODO: Implement create() method.
+        header('Content-type: text/plain');
+        $wid = random_int(0, 100);
+        echo "You've made whenever #$wid for whatever #$id1.\n";
     }
 
     /**
      * PUT action for the controller with parameters.
-     * @param  $id1 int|string The parameter for the first level of the route
+     * @param $id1 int|string The parameter for the first level of the route
      * @param $id2 int|string The parameter for the second level of the route
      */
     public function update($id1, $id2): void
     {
-        // TODO: Implement update() method.
+        header('Content-type: text/plain');
+        echo "Successfully updated whenever #$id2 of whatever #$id1.\n";
     }
 
     /**
@@ -52,6 +58,7 @@ class WhateverWhenever implements ControllerInterface
      */
     public function delete($id1, $id2): void
     {
-        // TODO: Implement delete() method.
+        header('Content-type: text/plain');
+        echo "Successfully deleted whenever #$id2 of whatever #$id1.\n";
     }
 }
