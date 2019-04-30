@@ -29,9 +29,9 @@
         }
     },
     "scripts": {
-        "cs-check": "phpcs src/ public/",
-        "cs-fix": "phpcbf src/ public/",
-        "phpmd": "phpmd src/,public/ text codesize,cleancode,design,naming",
+        "cs-check": "phpcs src/ public/ test/",
+        "cs-fix": "phpcbf src/ public/ test/",
+        "phpmd": "phpmd src/,public/,test text codesize,cleancode,design,naming",
         "lint": "phplint",
         "serve": "php -S 0.0.0.0:8080 -t public public/index.php",
         "test": "phpunit"

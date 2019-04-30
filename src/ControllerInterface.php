@@ -10,9 +10,9 @@ interface ControllerInterface
 {
     /**
      * Get action for the root of the controller.
-     * @param $id int|string The parameter for the first level of the route.
+     * @param $id1 int|string The parameter for the first level of the route.
      */
-    public function index($id): void;
+    public function index($id1): void;
 
     /**
      * GET action for the controller with parameters.

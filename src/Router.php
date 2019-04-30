@@ -126,12 +126,12 @@ class Router
 
     /**
      * @return ControllerInterface
-     * @throws ControllerNotFoundException
+     * @throws InvalidRouteException
      */
     public function getController(): ControllerInterface
     {
         if (! $this->hasController()) {
-            throw new ControllerNotFoundException($this->routeName);
+            throw new ControllerNotFoundException(self::$controllerRoot. '\\' . $this->className);
         }
         return self::$controllers[$this->routeName];
     }
