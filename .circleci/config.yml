@@ -42,4 +42,4 @@ jobs:
           path: phpunit.junit.xml
       - store_artifacts:
           path: report/
-          path: phpunit.junit.xml
+          #path: phpunit.junit.xml
