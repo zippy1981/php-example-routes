@@ -39,6 +39,6 @@ jobs:
       - run: composer run-script cs-check
       - run: composer run-script test
       - store_test_results:
-          path: junit/ 
+          path: report/
       - store_artifacts:
           path:  report/
