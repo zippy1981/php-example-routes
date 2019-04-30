@@ -103,6 +103,6 @@ fabric.properties
 # End of https://www.gitignore.io/api/phpstorm
 
 /zf-test/
+/junit
 /report
-/phpunit.junit.xml
 .phpunit.result.cache
