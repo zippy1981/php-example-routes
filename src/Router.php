@@ -92,35 +92,27 @@ class Router
     private function assertSegmentLength(): void
     {
         $verb = $this->getVerb();
-        $assertFails = $this->segmentCount > 4 || $this->segmentCount === 0;
+        if ($this->segmentCount > 4 || $this->segmentCount === 0) {
+            throw new InvalidRouteException($verb, $this->getUriPath(), "Routes must contain between 1 and 4 segments. Actual: {$this->segmentCount}.");
+        }
         switch ($verb) {
             case 'POST':
-                if ($this->routeLevels === 2) {
-                    $assertFails = $this->segmentCount != 3;
+                if ($this->routeLevels === 2 && $this->segmentCount != 3) {
+                    throw new InvalidRouteException($verb, $this->getUriPath(), "POST calls to child objects must contain 3 segments.");
                 }
-                if ($this->routeLevels === 1) {
-                    $assertFails = $this->segmentCount != 1;
+                if ($this->routeLevels === 1 && $this->segmentCount != 1) {
+                    throw new InvalidRouteException($verb, $this->getUriPath(), "POST calls to parent objects must contain 1 segments.");
                 }
                 break;
             case 'PUT':
-                if ($this->routeLevels === 2) {
-                    $assertFails = $this->segmentCount != 4;
-                }
-                if ($this->routeLevels === 1) {
-                    $assertFails = $this->segmentCount != 2;
-                }
-                break;
             case 'DELETE':
-                if ($this->routeLevels === 2) {
-                    $assertFails = $this->segmentCount != 4;
+                if ($this->routeLevels === 2 &&  $this->segmentCount != 4) {
+                    throw new InvalidRouteException($verb, $this->getUriPath(), "$verb calls to child objects must contain 4 segments.");
                 }
-                if ($this->routeLevels === 1) {
-                    $assertFails = $this->segmentCount != 2;
+                if ($this->routeLevels === 1 && $this->segmentCount != 2) {
+                    throw new InvalidRouteException($verb, $this->getUriPath(), "$verb calls to parent objects must contain 2 segments.");
                 }
                 break;
-        }
-        if ($assertFails) {
-            throw new InvalidRouteException($this->getVerb(), $this->getUriPath());
         }
     }
 

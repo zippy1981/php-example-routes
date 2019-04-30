@@ -34,8 +34,7 @@ jobs:
             - vendor
 
       - run: composer run-script lint
-      # TODO: Fix mess detection
-      #- run: composer run-script phpmd
+      - run: composer run-script phpmd
       - run: composer run-script cs-check
       - run: composer run-script test
       - store_test_results:
