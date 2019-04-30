@@ -41,6 +41,4 @@ jobs:
       - store_test_results:
           path: junit/ 
       - store_artifacts:
-          paths: 
-            - report/
-            - junit/
+          path:  report/
